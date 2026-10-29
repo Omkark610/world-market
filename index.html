@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+    <!-- Google AdSense -->
+    <meta name="google-adsense-account" content="ca-pub-7963880628277539">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7963880628277539" crossorigin="anonymous"></script>
+
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PGR4Y0TVNP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-PGR4Y0TVNP');
+    </script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Global Markets · Live World Stock Market Map</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c15;--panel:rgba(15,21,34,.78);--line:rgba(160,180,220,.16);--tx:#e7ecf6;--mu:#7d89a3;--up:#2fbf71;--dn:#e5484d;--ac:#7aa7ff;
+--sans:'IBM Plex Sans',system-ui,-apple-system,Segoe UI,sans-serif;--mono:'IBM Plex Mono',ui-monospace,Menlo,monospace}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;background:var(--bg);color:var(--tx);font:13px/1.4 var(--sans);overflow:hidden}
+.glass{background:var(--panel);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+#map{position:fixed;inset:0;width:100%;height:100%;cursor:grab;touch-action:none}
+#map:active{cursor:grabbing}
+.ctry{stroke:#0b1020;stroke-width:.6;vector-effect:non-scaling-stroke;transition:fill .6s,opacity .3s}
+.ctry.hv{stroke:#dfe8ff;stroke-width:1.4}
+.ctry.open{animation:pulse 2.6s ease-in-out infinite}
+@keyframes pulse{50%{stroke:rgba(90,230,150,.9);stroke-width:1.2}}
+.dim .ctry:not(.sel){opacity:.35}
+.ctry.sel{stroke:#fff;stroke-width:1.8}
+.dot{fill:#9cc2ff;stroke:rgba(122,167,255,.35);stroke-width:5;pointer-events:none}
+.lbl{font:500 10px var(--sans);fill:#dbe5fa;pointer-events:none;paint-order:stroke;stroke:#080c15;stroke-width:3px}
+.lbl .s{font:400 9px var(--mono);fill:#93a0bd}
+#hdr{position:fixed;top:14px;left:14px;padding:12px 16px;z-index:5;max-width:calc(100vw - 28px)}
+#hdr h1{font:600 15px var(--sans);letter-spacing:.14em}
+#hdr .sub{color:var(--mu);font-size:11px;margin-bottom:8px}
+.stats{display:flex;gap:14px;flex-wrap:wrap;font-size:12px}.stats b{font-family:var(--mono);font-weight:500}
+#utc{font-family:var(--mono);color:var(--mu);font-size:11px;margin-top:6px}
+#live{display:inline-flex;align-items:center;gap:5px;font-size:10px;color:var(--mu);margin-left:8px;letter-spacing:.1em}
+#live i{width:7px;height:7px;border-radius:50%;background:#555;display:inline-block}
+#live.on{color:var(--up)}#live.on i{background:var(--up);animation:pulse2 1.6s infinite}
+@keyframes pulse2{50%{opacity:.25}}
+#srch{position:fixed;top:14px;right:14px;z-index:6;width:min(340px,calc(100vw - 28px))}
+#srch input{width:100%;padding:11px 14px;background:var(--panel);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:12px;color:var(--tx);font:13px var(--sans);outline:none}
+#srch input:focus{border-color:var(--ac)}
+#res{margin-top:6px;max-height:260px;overflow:auto;display:none}
+#res div{padding:8px 14px;cursor:pointer;display:flex;justify-content:space-between;gap:8px}
+#res div:hover{background:rgba(122,167,255,.12)}#res small{color:var(--mu)}
+#legend{position:fixed;left:14px;bottom:56px;padding:10px 14px;z-index:4;font-size:11px}
+#legend .bar{height:6px;border-radius:3px;margin:6px 0 3px;width:170px;background:linear-gradient(90deg,#a8101c,#d83a46,#ef8a90,#6b7385,#8fe0b0,#2fbf71,#0b8f4d)}
+#legend .r{display:flex;justify-content:space-between;color:var(--mu);font-family:var(--mono);font-size:10px}
+#tip{position:fixed;pointer-events:none;z-index:9;padding:10px 12px;min-width:190px;display:none}
+.up{color:var(--up)}.dn{color:var(--dn)}.mu{color:var(--mu)}.mono{font-family:var(--mono)}
+#side{position:fixed;top:14px;right:14px;bottom:56px;width:410px;z-index:7;overflow:auto;transform:translateX(120%);transition:transform .45s cubic-bezier(.2,.8,.2,1);padding:18px;margin-top:56px}
+#side.on{transform:none}
+#side h2{font:600 20px var(--sans);display:flex;justify-content:space-between;align-items:center}
+#close{background:none;border:0;color:var(--mu);font-size:22px;cursor:pointer}
+.badge{display:inline-block;padding:2px 9px;border-radius:99px;font-size:11px;font-weight:600;border:1px solid currentColor}
+h3{font:600 11px var(--sans);letter-spacing:.1em;color:var(--mu);margin:18px 0 8px}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px}.kv div{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:4px 0}.kv span:first-child{color:var(--mu)}
+.tl{position:relative;height:10px;border-radius:5px;background:#1b2335;overflow:hidden;margin:8px 0 4px;display:flex}
+.tl i{display:block;height:100%}
+.needle{position:absolute;top:-3px;width:2px;height:16px;background:#fff;box-shadow:0 0 6px #fff}
+.tll{display:flex;justify-content:space-between;color:var(--mu);font-size:10px}
+.ix{padding:10px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;cursor:pointer;transition:border-color .2s,background .2s}
+.ix:hover,.ix.act{border-color:var(--ac);background:rgba(122,167,255,.07)}
+.ix .t{display:flex;justify-content:space-between;align-items:baseline}.ix .v{font:500 16px var(--mono)}
+.ix .m{display:flex;flex-wrap:wrap;gap:2px 12px;color:var(--mu);font-size:10.5px;margin-top:4px;font-family:var(--mono)}
+.tf{display:flex;gap:4px;margin:8px 0}.tf button{flex:1;padding:5px 0;background:none;border:1px solid var(--line);border-radius:6px;color:var(--mu);cursor:pointer;font:11px var(--mono)}
+.tf button.on{color:var(--tx);border-color:var(--ac)}
+#chart svg{width:100%;display:block;touch-action:none}#ro{font:11px var(--mono);color:var(--mu);min-height:30px}
+#glob{position:fixed;left:0;right:0;bottom:0;z-index:8;transform:translateY(calc(100% - 42px));transition:transform .4s cubic-bezier(.2,.8,.2,1);border-radius:14px 14px 0 0;max-height:60vh}
+#glob.on{transform:none}
+#gh{height:42px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;cursor:pointer;font-weight:600;letter-spacing:.14em;font-size:12px}
+#gb{display:grid;grid-template-columns:2fr 1fr;gap:18px;padding:0 16px 16px;max-height:calc(60vh - 42px);overflow:auto}
+.rg{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}.rg button{padding:4px 10px;border-radius:99px;background:none;border:1px solid var(--line);color:var(--mu);cursor:pointer;font:11px var(--sans)}
+.rg button.on{color:var(--tx);border-color:var(--ac);background:rgba(122,167,255,.1)}
+table{width:100%;border-collapse:collapse;font-size:12px}th{color:var(--mu);font-weight:400;text-align:right;padding:4px 6px}th:first-child,td:first-child{text-align:left}
+td{padding:5px 6px;text-align:right;border-top:1px solid var(--line);font-family:var(--mono)}td:first-child{font-family:var(--sans)}tr.c{cursor:pointer}tr.c:hover{background:rgba(122,167,255,.08)}
+.mv{display:flex;justify-content:space-between;padding:4px 0;cursor:pointer;border-top:1px solid var(--line)}.mv:hover{color:var(--ac)}
+#toast{position:fixed;top:92px;left:50%;transform:translateX(-50%);z-index:20;padding:10px 16px;display:none;max-width:min(520px,92vw);font-size:12px;text-align:center}
+.nbtn{margin-top:12px;width:100%;padding:9px;border-radius:9px;border:1px solid var(--ac);background:rgba(122,167,255,.1);color:var(--tx);cursor:pointer;font:500 13px var(--sans)}
+.nbtn:hover{background:rgba(122,167,255,.2)}
+#nm{position:fixed;inset:0;z-index:30;background:rgba(4,7,12,.62);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:16px}
+#nb2{width:min(640px,100%);max-height:84vh;overflow:auto;padding:18px;background:rgba(13,19,31,.97)}
+.nh{display:flex;justify-content:space-between;align-items:center;font-size:15px;margin-bottom:10px}.nh button{background:none;border:0;color:var(--mu);font-size:22px;cursor:pointer}
+.ni{display:block;padding:10px 0;border-top:1px solid var(--line);color:var(--tx);text-decoration:none}.ni:hover b{color:var(--ac)}
+.ni b{font-weight:500;display:block;margin-bottom:3px}.ni span{font-size:11px;color:var(--mu)}
+.tg{font-size:10px;padding:1px 7px;border-radius:99px;border:1px solid var(--line);margin-right:6px}
+.nf{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}.nf button{padding:4px 10px;border-radius:99px;background:none;border:1px solid var(--line);color:var(--mu);cursor:pointer;font:11px var(--sans)}.nf button.on{color:var(--tx);border-color:var(--ac)}
+@media(max-width:900px){#gb{grid-template-columns:1fr}#hdr{padding:10px 12px}#srch{top:auto;bottom:calc(52px + env(safe-area-inset-bottom));right:14px}
+#side{top:auto;left:0;right:0;bottom:0;width:auto;margin:0;height:58vh;border-radius:16px 16px 0 0;transform:translateY(110%);z-index:10}#side.on{transform:none}
+#legend{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg id="map"></svg>
+<div id="hdr" class="glass"><h1>GLOBAL MARKETS<span id="live"><i></i>LIVE</span></h1><div class="sub">Live World Stock Market Map</div>
+<div class="stats"><span>🌐 Open <b id="sO">–</b></span><span>🟢 Gaining <b id="sG">–</b></span><span>🔴 Declining <b id="sD">–</b></span><span>⚪ Closed <b id="sC">–</b></span></div><div id="utc"></div></div>
+<div id="srch"><input id="q" placeholder="🔍 Search country, capital or stock index…" autocomplete="off"><div id="res" class="glass"></div></div>
+<div id="legend" class="glass"><b>Market Performance</b><div class="bar"></div><div class="r"><span>-3%</span><span>0</span><span>+3%</span></div><div class="mu" style="margin-top:4px">🟢 Gaining · 🔴 Declining · ⚪ Closed / No data</div></div>
+<div id="tip" class="glass"></div><div id="toast" class="glass"></div>
+<aside id="side" class="glass"></aside>
+<div id="nm"><div id="nb2" class="glass"></div></div>
+<section id="glob" class="glass"><div id="gh"><span>GLOBAL MARKETS</span><span id="gt" class="mu">▲</span></div>
+<div id="gb"><div><div class="rg" id="rg"></div><table><thead><tr><th>Index</th><th>Value</th><th>Change</th><th>% Change</th><th>Status</th></tr></thead><tbody id="gtb"></tbody></table></div>
+<div><h3 style="margin-top:0">TOP GAINERS</h3><div id="mg"></div><h3>TOP LOSERS</h3><div id="ml"></div></div></div></section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<script>
+/* ═══════════════ 1. DATA PROVIDER CONFIG (swap providers/keys here only) ═══════════════
+   Default: Yahoo Finance public chart endpoint (delayed ~15 min, no key).
+   Browsers usually block it via CORS, so route it through your own proxy/serverless function:
+     proxy: u => 'https://YOUR-PROXY.example.com/?url=' + encodeURIComponent(u)
+   To use another provider (Twelve Data, Finnhub, Polygon, EODHD…) re-implement Provider.quote()
+   and Provider.history() so they return the shapes documented below. Nothing else needs to change.
+   quote()  → {price, prev, hi, lo, h52, l52, t(ms)}
+   history()→ {pts:[{t(ms), v}], prev}                                                        */
+const CONFIG={
+  REFRESH_MS:60000, CONCURRENCY:6, API_KEY:'',
+  proxy:u=>u,
+  GRAY_WHEN_CLOSED:false,            // true = closed markets render neutral gray (strict reading of the legend)
+  HOLIDAYS:{ /* exchange key → ['YYYY-MM-DD',…]  e.g. 'India':['2026-11-05'] — add from your exchange calendar */ }
+};
+let pauseUntil=0;
+async function getJSON(url){
+  if(Date.now()<pauseUntil) throw Error('rate-limited');
+  const r=await fetch(CONFIG.proxy(url));
+  if(r.status===429){pauseUntil=Date.now()+30000;throw Error('429')}
+  if(!r.ok) throw Error(r.status);
+  return r.json();
+}
+const Y='https://query1.finance.yahoo.com/v8/finance/chart/';
+const RANGES={'1D':['1d','5m'],'5D':['5d','15m'],'1M':['1mo','1d'],'6M':['6mo','1d'],'YTD':['ytd','1d'],'1Y':['1y','1d'],'5Y':['5y','1wk']};
+const Provider={
+  async quote(s){
+    const m=(await getJSON(`${Y}${encodeURIComponent(s)}?range=1d&interval=5m`)).chart.result[0].meta;
+    const prev=m.chartPreviousClose??m.previousClose;
+    if(m.regularMarketPrice==null||!prev) throw Error('no data');
+    return{price:m.regularMarketPrice,prev,hi:m.regularMarketDayHigh,lo:m.regularMarketDayLow,h52:m.fiftyTwoWeekHigh,l52:m.fiftyTwoWeekLow,t:m.regularMarketTime*1000};
+  },
+  async history(s,rg){
+    const[r,i]=RANGES[rg];const x=(await getJSON(`${Y}${encodeURIComponent(s)}?range=${r}&interval=${i}`)).chart.result[0];
+    const c=x.indicators.quote[0].close,pts=x.timestamp.map((t,k)=>({t:t*1000,v:c[k]})).filter(p=>p.v!=null);
+    return{pts,prev:x.meta.chartPreviousClose};
+  }
+};
+/* cache + request de-duplication */
+const cache=new Map();
+function Q(s){const e=cache.get(s);if(e&&Date.now()-e.ts<CONFIG.REFRESH_MS)return e.p;
+  const p=Provider.quote(s).then(d=>({...d,ok:1}),()=>({ok:0}));cache.set(s,{ts:Date.now(),p});return p}
+const D={};                                        // sym → latest quote result
+
+/* ═══════════════ 2. STATIC REFERENCE DATA (no prices here) ═══════════════
+   name|flag|capital|lat|lon|IANA tz (capital + exchange)|open|close|region|trading days|indices(sym:label;…)
+   Trading hours are regular sessions; lunch breaks and special sessions are not modelled.
+   Pre-market = 90 min before open, after-hours = 120 min after close (approximation). */
+const RAW=`United States of America|🇺🇸|Washington, D.C.|38.9|-77|America/New_York|09:30|16:00|Americas||^GSPC:S&P 500;^IXIC:NASDAQ Composite;^DJI:Dow Jones Industrial Average;^RUT:Russell 2000
+Canada|🇨🇦|Ottawa|45.42|-75.7|America/Toronto|09:30|16:00|Americas||^GSPTSE:S&P/TSX Composite
+Brazil|🇧🇷|Brasília|-15.8|-47.9|America/Sao_Paulo|10:00|17:55|Americas||^BVSP:Bovespa
+Mexico|🇲🇽|Mexico City|19.43|-99.13|America/Mexico_City|08:30|15:00|Americas||^MXX:S&P/BMV IPC
+Argentina|🇦🇷|Buenos Aires|-34.6|-58.4|America/Argentina/Buenos_Aires|11:00|17:00|Americas||^MERV:MERVAL
+Chile|🇨🇱|Santiago|-33.45|-70.67|America/Santiago|09:30|16:00|Americas||^IPSA:S&P IPSA
+United Kingdom|🇬🇧|London|51.5|-0.12|Europe/London|08:00|16:30|Europe||^FTSE:FTSE 100;^FTMC:FTSE 250
+Germany|🇩🇪|Berlin|52.52|13.4|Europe/Berlin|09:00|17:30|Europe||^GDAXI:DAX;^MDAXI:MDAX;^STOXX50E:EURO STOXX 50
+France|🇫🇷|Paris|48.85|2.35|Europe/Paris|09:00|17:30|Europe||^FCHI:CAC 40
+Italy|🇮🇹|Rome|41.9|12.5|Europe/Rome|09:00|17:30|Europe||FTSEMIB.MI:FTSE MIB
+Spain|🇪🇸|Madrid|40.4|-3.7|Europe/Madrid|09:00|17:30|Europe||^IBEX:IBEX 35
+Switzerland|🇨🇭|Bern|46.95|7.45|Europe/Zurich|09:00|17:30|Europe||^SSMI:SMI
+Netherlands|🇳🇱|Amsterdam|52.37|4.9|Europe/Amsterdam|09:00|17:30|Europe||^AEX:AEX
+Sweden|🇸🇪|Stockholm|59.33|18.07|Europe/Stockholm|09:00|17:30|Europe||^OMX:OMX Stockholm 30
+Norway|🇳🇴|Oslo|59.9|10.75|Europe/Oslo|09:00|16:20|Europe||OSEBX.OL:Oslo Børs Benchmark
+Poland|🇵🇱|Warsaw|52.23|21|Europe/Warsaw|09:00|17:00|Europe||WIG20.WA:WIG20
+Turkey|🇹🇷|Ankara|39.93|32.85|Europe/Istanbul|10:00|18:00|Middle East||XU100.IS:BIST 100
+Saudi Arabia|🇸🇦|Riyadh|24.7|46.7|Asia/Riyadh|10:00|15:00|Middle East|0,1,2,3,4|^TASI.SR:Tadawul All Share
+Israel|🇮🇱|Jerusalem|31.77|35.2|Asia/Jerusalem|09:30|17:30|Middle East||^TA125.TA:TA-125
+Egypt|🇪🇬|Cairo|30.04|31.24|Africa/Cairo|10:00|14:30|Africa|0,1,2,3,4|^CASE30:EGX 30
+South Africa|🇿🇦|Pretoria|-25.75|28.19|Africa/Johannesburg|09:00|17:00|Africa||^J203.JO:FTSE/JSE All Share
+India|🇮🇳|New Delhi|28.61|77.2|Asia/Kolkata|09:15|15:30|Asia-Pacific||^NSEI:NIFTY 50;^BSESN:SENSEX;^NSEBANK:NIFTY BANK;^CNXIT:NIFTY IT
+Japan|🇯🇵|Tokyo|35.68|139.69|Asia/Tokyo|09:00|15:30|Asia-Pacific||^N225:Nikkei 225;^TOPX:TOPIX
+China|🇨🇳|Beijing|39.9|116.4|Asia/Shanghai|09:30|15:00|Asia-Pacific||000001.SS:Shanghai Composite;399001.SZ:Shenzhen Component
+South Korea|🇰🇷|Seoul|37.57|126.98|Asia/Seoul|09:00|15:30|Asia-Pacific||^KS11:KOSPI;^KQ11:KOSDAQ
+Taiwan|🇹🇼|Taipei|25.03|121.56|Asia/Taipei|09:00|13:30|Asia-Pacific||^TWII:TAIEX
+Australia|🇦🇺|Canberra|-35.28|149.13|Australia/Sydney|10:00|16:00|Asia-Pacific||^AXJO:S&P/ASX 200
+New Zealand|🇳🇿|Wellington|-41.29|174.78|Pacific/Auckland|10:00|16:45|Asia-Pacific||^NZ50:S&P/NZX 50
+Indonesia|🇮🇩|Jakarta|-6.2|106.85|Asia/Jakarta|09:00|15:50|Asia-Pacific||^JKSE:IDX Composite
+Malaysia|🇲🇾|Kuala Lumpur|3.14|101.69|Asia/Kuala_Lumpur|09:00|17:00|Asia-Pacific||^KLSE:FTSE Bursa Malaysia KLCI
+Thailand|🇹🇭|Bangkok|13.75|100.5|Asia/Bangkok|10:00|16:30|Asia-Pacific||^SET.BK:SET Index
+Philippines|🇵🇭|Manila|14.6|120.98|Asia/Manila|09:30|15:30|Asia-Pacific||PSEI.PS:PSEi`;
+const hm=s=>{const[h,m]=s.split(':');return+h*60+ +m};
+const C={};RAW.split('\n').forEach((l,n)=>{const a=l.split('|');
+  C[a[0]]={name:a[0],flag:a[1],cap:a[2],lat:+a[3],lon:+a[4],tz:a[5],reg:a[8],rank:n,
+    h:{tz:a[5],o:hm(a[6]),c:hm(a[7]),days:a[9]?a[9].split(',').map(Number):[1,2,3,4,5],key:a[0]},
+    ix:a[10].split(';').map(x=>{const i=x.indexOf(':');return{s:x.slice(0,i),n:x.slice(i+1)}})}});
+const prim=c=>c.ix[0].s;                     // primary benchmark = first index; it drives the map colour
+const HK={tz:'Asia/Hong_Kong',o:570,c:960,days:[1,2,3,4,5],key:'Hong Kong'};
+/* Global table: [symbol,label,flag,country key,optional exchange-hours override] */
+const GLOBAL=[['^GSPC','S&P 500','🇺🇸','United States of America'],['^IXIC','NASDAQ','🇺🇸','United States of America'],['^DJI','Dow Jones','🇺🇸','United States of America'],
+['^GSPTSE','S&P/TSX Composite','🇨🇦','Canada'],['^BVSP','Bovespa','🇧🇷','Brazil'],['^FTSE','FTSE 100','🇬🇧','United Kingdom'],['^GDAXI','DAX','🇩🇪','Germany'],['^FCHI','CAC 40','🇫🇷','France'],
+['^STOXX50E','EURO STOXX 50','🇪🇺','Germany'],['^NSEI','NIFTY 50','🇮🇳','India'],['^BSESN','SENSEX','🇮🇳','India'],['^N225','Nikkei 225','🇯🇵','Japan'],['^HSI','Hang Seng','🇭🇰','China',HK],
+['000001.SS','Shanghai Composite','🇨🇳','China'],['^KS11','KOSPI','🇰🇷','South Korea'],['^AXJO','ASX 200','🇦🇺','Australia'],['^TASI.SR','Tadawul','🇸🇦','Saudi Arabia'],['^J203.JO','JSE All Share','🇿🇦','South Africa']];
+const ALIAS={'New York':'United States of America','Mumbai':'India','Hong Kong':'China','Sydney':'Australia','USA':'United States of America','US':'United States of America','UK':'United Kingdom'};
+
+/* ═══════════════ 3. TIME + MARKET STATUS (deterministic, exchange-timezone based) ═══════════════ */
+const DOW=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],fc={};
+function parts(d,tz){const f=fc[tz]||(fc[tz]=new Intl.DateTimeFormat('en-GB',{timeZone:tz,hourCycle:'h23',year:'numeric',month:'2-digit',day:'2-digit',weekday:'short',hour:'2-digit',minute:'2-digit'}));
+  const o={};f.formatToParts(d).forEach(p=>o[p.type]=p.value);return o}
+const fDate=(d,tz)=>d.toLocaleDateString('en-GB',{timeZone:tz,day:'2-digit',month:'short',year:'numeric'});
+const fTime=(d,tz,z=1)=>d.toLocaleTimeString('en-US',{timeZone:tz,hour:'2-digit',minute:'2-digit',...(z?{timeZoneName:'short'}:{})});
+const fMin=m=>{const h=Math.floor(m/60);return`${String(h%12||12).padStart(2,'0')}:${String(m%60).padStart(2,'0')} ${h%24<12?'AM':'PM'}`};
+function status(h,d=new Date()){const p=parts(d,h.tz),dow=DOW.indexOf(p.weekday),min=+p.hour*60+ +p.minute;
+  if(!h.days.includes(dow))return'CLOSED';
+  if((CONFIG.HOLIDAYS[h.key]||[]).includes(`${p.year}-${p.month}-${p.day}`))return'HOLIDAY';
+  if(min>=h.o&&min<h.c)return h.c-min<=30?'CLOSING SOON':'OPEN';
+  if(min>=h.o-90&&min<h.o)return'PRE-MARKET';
+  if(min>=h.c&&min<h.c+120)return'AFTER HOURS';return'CLOSED'}
+const isOpen=s=>s==='OPEN'||s==='CLOSING SOON';
+const SC={OPEN:'#2fbf71','CLOSING SOON':'#e8b931','PRE-MARKET':'#f08a3c','AFTER HOURS':'#5b8def',CLOSED:'#e5484d',HOLIDAY:'#9aa3b5'},SI={OPEN:'🟢','CLOSING SOON':'🟡','PRE-MARKET':'🟠','AFTER HOURS':'🔵',CLOSED:'🔴',HOLIDAY:'⚪'};
+function nextOpen(h){const n=Date.now();for(let i=1;i<=672;i++){const d=new Date(n+i*9e5);if(isOpen(status(h,d))){const p=parts(d,h.tz);return`${p.weekday} ${fMin(h.o)} local`}}return null}
+
+/* ═══════════════ 4. MAP ═══════════════ */
+const $=s=>document.querySelector(s),svg=d3.select('#map'),g=svg.append('g'),gc=g.append('g'),gm=g.append('g');
+const fmtN=(v,d=2)=>v==null?'–':v.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+const pct=q=>q&&q.ok?(q.price-q.prev)/q.prev*100:null;
+const cls=v=>v==null?'mu':v>=0?'up':'dn',arrow=v=>v==null?'':v>=0?'▲':'▼',sg=v=>(v>=0?'+':'')+fmtN(v);
+const col=d3.scaleLinear().domain([-3,-1,-.02,0,.02,1,3]).range(['#a8101c','#d83a46','#ef8a90','#6b7385','#8fe0b0','#2fbf71','#0b8f4d']).clamp(true).interpolate(d3.interpolateRgb);
+let W,H,proj,path,k=1,feats,sel=null,lastTap=null,zoomB;
+function fill(f){const c=C[f.properties.name];if(!c)return'#1a2133';const q=D[prim(c)],p=pct(q);
+  if(p==null||(CONFIG.GRAY_WHEN_CLOSED&&!isOpen(status(c.h))))return'#4a5266';return col(p)}
+function recolor(){gc.selectAll('path').attr('fill',fill).attr('class',f=>{const c=C[f.properties.name];return'ctry'+(c&&isOpen(status(c.h))?' open':'')+(sel===f.properties.name?' sel':'')})}
+async function init(){
+  W=innerWidth;H=innerHeight;
+  const topo=await d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json');
+  feats=topojson.feature(topo,topo.objects.countries).features.filter(f=>f.properties.name!=='Antarctica');
+  proj=d3.geoNaturalEarth1().fitExtent([[10,60],[W-10,H-50]],{type:'Sphere'});path=d3.geoPath(proj);
+  gc.append('path').datum({type:'Sphere'}).attr('d',path).attr('fill','#0c1221').attr('stroke','rgba(160,180,220,.2)');
+  gc.selectAll('.ctry').data(feats).join('path').attr('d',path).attr('fill',fill).attr('class','ctry')
+    .on('pointermove',(e,f)=>hover(e,f)).on('pointerleave',()=>{$('#tip').style.display='none';gc.selectAll('.hv').classed('hv',false)})
+    .on('click',(e,f)=>click(e,f)).on('dblclick',(e,f)=>focus(f.properties.name));
+  const cs=Object.values(C);
+  const mk=gm.selectAll('g').data(cs).join('g');
+  mk.append('circle').attr('class','dot').attr('r',2.2);
+  mk.append('text').attr('class','lbl').attr('x',6).attr('y',-3);
+  zoomB=d3.zoom().scaleExtent([1,40]).on('zoom',e=>{k=e.transform.k;g.attr('transform',e.transform);layout()});
+  svg.call(zoomB).on('dblclick.zoom',null);
+  layout();tick();
+}
+function layout(){
+  gm.selectAll('g').attr('transform',c=>{const p=proj([c.lon,c.lat]);return`translate(${p})scale(${1/k})`}).style('display',c=>c.rank<10||k>1.3+(c.rank-10)*.12?null:'none');
+  gm.selectAll('text').style('display',c=>k>1.6+c.rank*.1||(k>1.2&&c.rank<4)?null:'none');
+  gm.selectAll('.dot').attr('r',2.2+(k>4?0:0));
+}
+function labels(){const n=new Date();gm.selectAll('text').filter(function(){return this.style.display!=='none'}).each(function(c){
+  d3.select(this).html(`${c.flag} ${c.cap}<tspan class="s" x="6" dy="10">${fDate(n,c.tz)}</tspan><tspan class="s" x="6" dy="9">${fTime(n,c.tz)}</tspan>`)})}
+function focus(name){const f=feats.find(x=>x.properties.name===name);if(!f)return;
+  const[[x0,y0],[x1,y1]]=path.bounds(f),w=W-(W>900&&sel?420:0),s=Math.min(8,.8/Math.max((x1-x0)/w,(y1-y0)/(H*.7)));
+  svg.transition().duration(900).call(zoomB.transform,d3.zoomIdentity.translate(w/2-s*(x0+x1)/2,H/2-s*(y0+y1)/2).scale(s))}
+function select(name){if(!C[name])return;sel=name;$('#map').classList.add('dim');gc.selectAll('path').classed('sel',f=>f.properties&&f.properties.name===name);
+  $('#side').classList.add('on');$('#glob').classList.remove('on');selIx=null;renderSide();focus(name)}
+function click(e,f){const n=f.properties.name;if(!C[n])return;
+  if(e.pointerType==='touch'||matchMedia('(pointer:coarse)').matches){if(lastTap!==n){lastTap=n;hover(e,f);return}}
+  lastTap=null;select(n)}
+function hover(e,f){gc.selectAll('.hv').classed('hv',false);d3.select(e.currentTarget).classed('hv',true);const c=C[f.properties.name],t=$('#tip');
+  if(!c){t.innerHTML=`<b>${f.properties.name}</b><div class="mu">No benchmark mapped</div>`}
+  else{const i=c.ix[0],q=D[i.s],p=pct(q),s=status(c.h);
+    t.innerHTML=`<b>${c.name} ${c.flag}</b><div style="margin-top:6px">${i.n}</div>${q&&q.ok?`<div class="mono" style="font-size:15px">${fmtN(q.price)}</div><div class="${cls(p)} mono">${arrow(p)} ${sg(p)}%</div>`:'<div class="mu">Data unavailable</div>'}
+    <div style="margin-top:6px">Market: ${SI[s]} ${s}</div><div class="mu mono">Local Time: ${fTime(new Date(),c.tz)}</div>`}
+  t.style.display='block';const x=Math.min(e.clientX+16,innerWidth-230),y=Math.min(e.clientY+16,innerHeight-190);t.style.left=x+'px';t.style.top=y+'px'}
+
+/* ═══════════════ 5. SIDE PANEL ═══════════════ */
+let selIx=null,range='1D';
+function head(){const c=C[sel],n=new Date(),s=status(c.h),no=isOpen(s)?null:nextOpen(c.h);
+  const o=c.h.o,cl=c.h.c,p=parts(n,c.tz),now=+p.hour*60+ +p.minute,pc=m=>m/14.4;
+  return`<h2><span>${c.flag} ${c.name.toUpperCase()}</span><button id="close" aria-label="Close">×</button></h2>
+  <div class="mu" style="margin:6px 0 10px">Capital: ${c.cap} · ${fDate(n,c.tz)} · <span class="mono">${fTime(n,c.tz)}</span></div>
+  <span class="badge" style="color:${SC[s]}">${SI[s]} ${s}</span>
+  ${no?`<div class="mu" style="margin-top:8px">Next open: <span class="tx mono" style="color:var(--tx)">${no}</span></div>`:''}
+  <div class="mu" style="margin-top:4px">Regular session: <span class="mono" style="color:var(--tx)">${fMin(o)} – ${fMin(cl)}</span></div>
+  <div class="tl"><i style="width:${pc(Math.max(0,o-90))}%;background:#1b2335"></i><i style="width:${pc(Math.min(90,o))}%;background:#f08a3c88"></i><i style="width:${pc(cl-o)}%;background:#2fbf7199"></i><i style="width:${pc(120)}%;background:#5b8def88"></i>
+  <div class="needle" style="left:${pc(now)}%"></div></div>
+  <div class="tll"><span>Pre-market</span><span>Open</span><span>Regular session</span><span>Close</span><span>After hours</span></div>`}
+function ixCard(i,c){const q=D[i.s],s=status(c.h);
+  if(!q||!q.ok)return`<div class="ix" data-s="${i.s}"><div class="t"><b>${i.n}</b><span class="mu">Data unavailable</span></div></div>`;
+  const ch=q.price-q.prev,p=pct(q),tag=isOpen(s)?'DELAYED':'PREVIOUS CLOSE';
+  return`<div class="ix ${selIx===i.s?'act':''}" data-s="${i.s}"><div class="t"><b>${i.n}</b><span class="v">${fmtN(q.price)}</span></div>
+  <div class="t"><span class="mu">${SI[s]} ${s}</span><span class="${cls(p)} mono">${arrow(p)} ${sg(ch)} (${sg(p)}%)</span></div>
+  <div class="m"><span>Prev ${fmtN(q.prev)}</span><span>H ${fmtN(q.hi)}</span><span>L ${fmtN(q.lo)}</span><span>${tag}</span><span>Updated ${new Date(q.t).toLocaleTimeString('en-GB',{timeZone:c.tz})}</span></div></div>`}
+function renderSide(){if(!sel)return;const c=C[sel],q=D[prim(c)],ok=q&&q.ok,p=pct(q),s=status(c.h);
+  const row=(a,b)=>`<div><span>${a}</span><span class="mono">${b}</span></div>`,na='Data unavailable';
+  $('#side').innerHTML=`<div id="hd">${head()}</div>
+  <button class="nbtn" id="nbtn">📰 News</button><h3>MAJOR INDICES</h3><div id="ixs">${c.ix.map(i=>ixCard(i,c)).join('')}</div>
+  <div id="chartBox" style="display:${selIx?'block':'none'}"><div class="tf">${Object.keys(RANGES).map(r=>`<button class="${r===range?'on':''}" data-r="${r}">${r}</button>`).join('')}</div><div id="chart"></div><div id="ro"></div></div>
+  <h3>MARKET SUMMARY</h3><div class="kv">
+  ${row('Primary index',c.ix[0].n)}${row('Daily change',ok?`<span class="${cls(p)}">${sg(p)}%</span>`:na)}${row('Status',s)}${row('Open',fMin(c.h.o))}${row('Close',fMin(c.h.c))}
+  ${row('Previous close',ok?fmtN(q.prev):na)}${row('Day high',ok?fmtN(q.hi):na)}${row('Day low',ok?fmtN(q.lo):na)}${row('52-week high',ok&&q.h52?fmtN(q.h52):na)}${row('52-week low',ok&&q.l52?fmtN(q.l52):na)}</div>
+  <div class="mu" style="font-size:10.5px;margin-top:8px">Map colour: ${c.ix[0].n}. Breadth, volume, market cap and volatility index are not provided by the default feed.</div>`;
+  $('#close').onclick=()=>{sel=null;$('#side').classList.remove('on');$('#map').classList.remove('dim');gc.selectAll('.sel').classed('sel',false);svg.transition().duration(700).call(zoomB.transform,d3.zoomIdentity)};
+  $('#nbtn').onclick=()=>openNews(sel);
+  document.querySelectorAll('.ix').forEach(el=>el.onclick=()=>{selIx=el.dataset.s;renderSide();chart()});
+  document.querySelectorAll('.tf button').forEach(b=>b.onclick=()=>{range=b.dataset.r;renderSide();chart()});
+  if(selIx)chart()}
+async function chart(){const box=$('#chart');if(!box)return;box.innerHTML='<div class="mu" style="padding:30px 0">Loading…</div>';
+  let h;try{h=await Provider.history(selIx,range)}catch(e){box.innerHTML='<div class="mu" style="padding:30px 0">Data unavailable</div>';return}
+  const P=h.pts;if(P.length<2){box.innerHTML='<div class="mu">Data unavailable</div>';return}
+  const base=range==='1D'&&h.prev?h.prev:P[0].v,last=P[P.length-1].v,up=last>=base,cl=up?'#2fbf71':'#e5484d',w=360,ht=150;
+  const x=d3.scaleLinear([0,P.length-1],[0,w]),ex=d3.extent(P,d=>d.v),y=d3.scaleLinear(ex,[ht-8,8]);
+  const ln=d3.line().x((d,i)=>x(i)).y(d=>y(d.v));
+  box.innerHTML=`<svg viewBox="0 0 ${w} ${ht}"><defs><linearGradient id="gr" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="${cl}" stop-opacity=".3"/><stop offset="1" stop-color="${cl}" stop-opacity="0"/></linearGradient></defs>
+  <path d="${ln(P)}L${w},${ht}L0,${ht}Z" fill="url(#gr)" stroke="none"/><path d="${ln(P)}" fill="none" stroke="${cl}" stroke-width="1.6"/>
+  <line id="cx" y1="0" y2="${ht}" stroke="#9aa8c6" stroke-dasharray="3" style="display:none"/><circle id="cd" r="3.5" fill="${cl}" style="display:none"/></svg>`;
+  const s=box.querySelector('svg'),intra=range==='1D'||range==='5D';
+  const ro=$('#ro'),show=i=>{const d=P[i],ch=d.v-base,pc=ch/base*100;ro.innerHTML=`<span style="color:var(--tx)">${new Date(d.t).toLocaleString('en-GB',intra?{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}:{day:'2-digit',month:'short',year:'numeric'})}</span> · ${fmtN(d.v)} · <span class="${cls(ch)}">${sg(ch)} (${sg(pc)}%)</span>`;
+    const cx=s.querySelector('#cx'),cd=s.querySelector('#cd');cx.style.display=cd.style.display='';cx.setAttribute('x1',x(i));cx.setAttribute('x2',x(i));cd.setAttribute('cx',x(i));cd.setAttribute('cy',y(d.v))};
+  show(P.length-1);
+  s.onpointermove=e=>{const r=s.getBoundingClientRect();show(Math.max(0,Math.min(P.length-1,Math.round((e.clientX-r.left)/r.width*(P.length-1)))))};
+  s.onpointerleave=()=>show(P.length-1)}
+
+/* ═══════════════ 6. GLOBAL PANEL, MOVERS, HEADER ═══════════════ */
+/* ═══ NEWS (swap provider here) ═══
+   Default: GDELT DOC 2.0 (free, no key, ~1 request / 5 s). Results cached 10 min per country.
+   If the browser blocks it (CORS), route it through CONFIG.proxy. Replace fetchNews() to use NewsAPI, GNews, etc.
+   fetchNews(country) must return [{title,url,domain,seendate}] */
+const NEWS={TOPICS:'(stock OR stocks OR market OR economy OR inflation OR technology OR AI OR chip OR war OR conflict OR sanctions OR tariff)',TTL:600000,N:10};
+const NAME={'United States of America':'United States'},ncache=new Map();let lastNews=0,newsTag='All',newsList=[],newsC=null;
+const TAGS=[['War','war|attack|military|missile|ceasefire|conflict|troops|sanction|strike|drone'],['Markets','stock|share|market|index|nasdaq|bond|yield|currency|investor|earnings'],['Tech','tech|\\bai\\b|chip|semiconductor|software|cyber|startup|robot'],['Economy','econom|inflation|gdp|rate|bank|trade|tariff|budget|oil']];
+const tagOf=t=>(TAGS.find(([,r])=>new RegExp(r,'i').test(t))||['General'])[0];
+const esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+async function fetchNews(c){const e=ncache.get(c.name);if(e&&Date.now()-e.ts<NEWS.TTL)return e.p;
+  const nm=NAME[c.name]||c.name;
+  const p=(async()=>{const w=lastNews+5200-Date.now();if(w>0)await new Promise(r=>setTimeout(r,w));lastNews=Date.now();
+    const u=`https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(`"${nm}" ${NEWS.TOPICS} sourcelang:english`)}&mode=ArtList&maxrecords=40&format=json&sort=HybridRel&timespan=2d`;
+    const t=await(await fetch(CONFIG.proxy(u))).text();let j;try{j=JSON.parse(t)}catch{throw Error(t.slice(0,80)||'bad response')}
+    const seen=new Set(),L=[];(j.articles||[]).forEach(a=>{const k=(a.title||'').toLowerCase().slice(0,50);if(k&&!seen.has(k)&&/^https?:/.test(a.url)){seen.add(k);L.push(a)}});
+    L.sort((a,b)=>b.title.includes(nm)-a.title.includes(nm));return L.slice(0,NEWS.N)})();
+  ncache.set(c.name,{ts:Date.now(),p});p.catch(()=>ncache.delete(c.name));return p}
+const ago=s=>{const d=new Date((s||'').replace(/(\d{4})(\d\d)(\d\d)T(\d\d)(\d\d)(\d\d)Z/,'$1-$2-$3T$4:$5:$6Z'));if(isNaN(d))return'';const h=(Date.now()-d)/36e5;return h<1?Math.max(1,Math.round(h*60))+' min ago':h<24?Math.round(h)+' h ago':Math.round(h/24)+' d ago'};
+function closeNews(){$('#nm').style.display='none'}
+$('#nm').onclick=e=>{if(e.target.id==='nm')closeNews()};addEventListener('keydown',e=>{if(e.key==='Escape')closeNews()});
+function drawNews(msg){const c=newsC,b=$('#nb2');
+  const items=newsList.filter(a=>newsTag==='All'||tagOf(a.title)===newsTag);
+  b.innerHTML=`<div class="nh"><b>${c.flag} ${c.name} · Top ${NEWS.N} news</b><button id="nx" aria-label="Close">×</button></div>
+  ${msg?`<div class="mu" style="padding:20px 0">${msg}</div>`:`<div class="nf">${['All','Markets','Tech','War','Economy'].map(t=>`<button data-t="${t}" class="${t===newsTag?'on':''}">${t}</button>`).join('')}</div>
+  ${items.map(a=>`<a class="ni" href="${esc(a.url)}" target="_blank" rel="noopener noreferrer"><b>${esc(a.title)}</b><span class="tg">${tagOf(a.title)}</span><span>${esc(a.domain||'')} · ${ago(a.seendate)}</span></a>`).join('')||'<div class="mu" style="padding:20px 0">No matching stories in the last 2 days.</div>'}
+  <div class="mu" style="font-size:10.5px;margin-top:10px">Source: GDELT · headlines link to the publisher.</div>`}`;
+  $('#nx').onclick=closeNews;b.querySelectorAll('.nf button').forEach(x=>x.onclick=()=>{newsTag=x.dataset.t;drawNews()})}
+async function openNews(name){newsC=C[name];newsTag='All';newsList=[];$('#nm').style.display='flex';drawNews('Loading latest headlines…');
+  try{newsList=await fetchNews(newsC);drawNews(newsList.length?'':'No stories found for this country right now.')}
+  catch(e){drawNews('<b>News unavailable.</b> The feed could not be reached (likely a browser CORS block or rate limit). Set <span class="mono">CONFIG.proxy</span> or swap <span class="mono">fetchNews()</span> in index.html.')}}
+let region='World';const REG=['World','Americas','Europe','Asia-Pacific','Middle East','Africa'];
+$('#rg').innerHTML=REG.map(r=>`<button data-r="${r}" class="${r===region?'on':''}">${r}</button>`).join('');
+$('#rg').onclick=e=>{if(e.target.dataset.r){region=e.target.dataset.r;document.querySelectorAll('#rg button').forEach(b=>b.classList.toggle('on',b.dataset.r===region));renderGlobal()}};
+$('#gh').onclick=()=>{const o=$('#glob').classList.toggle('on');$('#gt').textContent=o?'▼':'▲'};
+function renderGlobal(){const rows=GLOBAL.filter(r=>region==='World'||C[r[3]].reg===region);
+  $('#gtb').innerHTML=rows.map(r=>{const q=D[r[0]],p=pct(q),s=status(r[4]||C[r[3]].h);
+    return`<tr class="c" data-c="${r[3]}"><td>${r[2]} ${r[1]}</td><td>${q&&q.ok?fmtN(q.price):'–'}</td><td class="${cls(p)}">${q&&q.ok?sg(q.price-q.prev):'–'}</td><td class="${cls(p)}">${q&&q.ok?sg(p)+'%':'n/a'}</td><td style="color:${SC[s]}">${SI[s]} ${s}</td></tr>`}).join('');
+  document.querySelectorAll('#gtb tr').forEach(r=>r.onclick=()=>select(r.dataset.c));
+  const mv=Object.values(C).map(c=>({c,p:pct(D[prim(c)])})).filter(m=>m.p!=null).sort((a,b)=>b.p-a.p);
+  const li=a=>a.map(m=>`<div class="mv" data-c="${m.c.name}"><span>${m.c.flag} ${m.c.name.replace('United States of America','USA')} <span class="mu">${m.c.ix[0].n}</span></span><span class="${cls(m.p)} mono">${sg(m.p)}%</span></div>`).join('')||'<div class="mu">Data unavailable</div>';
+  $('#mg').innerHTML=li(mv.slice(0,5));$('#ml').innerHTML=li(mv.slice(-5).reverse());
+  document.querySelectorAll('.mv[data-c]').forEach(r=>r.onclick=()=>select(r.dataset.c))}
+function stats(){const cs=Object.values(C);let o=0,gn=0,dn=0;cs.forEach(c=>{if(isOpen(status(c.h)))o++;const p=pct(D[prim(c)]);if(p>0)gn++;else if(p<0)dn++});
+  $('#sO').textContent=o;$('#sG').textContent=gn;$('#sD').textContent=dn;$('#sC').textContent=cs.length-o}
+
+/* ═══════════════ 7. SEARCH ═══════════════ */
+$('#q').oninput=e=>{const v=e.target.value.trim().toLowerCase(),r=$('#res');if(!v){r.style.display='none';return}
+  const out=[];Object.values(C).forEach(c=>{if(c.name.toLowerCase().includes(v))out.push([c.flag+' '+c.name,'Country',c.name]);
+    else if(c.cap.toLowerCase().includes(v))out.push([c.cap,c.name,c.name]);c.ix.forEach(i=>{if(i.n.toLowerCase().includes(v)||i.s.toLowerCase()===v)out.push([i.n,c.name,c.name])})});
+  Object.entries(ALIAS).forEach(([a,n])=>{if(a.toLowerCase().includes(v))out.push([a,n,n])});
+  r.innerHTML=out.slice(0,8).map(o=>`<div data-c="${o[2]}">${o[0]}<small>${o[1]}</small></div>`).join('')||'<div class="mu">No matches</div>';r.style.display='block';
+  r.querySelectorAll('[data-c]').forEach(d=>d.onclick=()=>{select(d.dataset.c);r.style.display='none';$('#q').value=''})};
+
+/* ═══════════════ 8. LOOP: clocks every second, data every REFRESH_MS ═══════════════ */
+function tick(){const n=new Date();$('#utc').textContent='UTC '+n.toISOString().slice(0,19).replace('T',' ');labels();
+  if(sel&&$('#hd')){$('#hd').innerHTML=head();bindClose()}
+  recolor();stats()}
+function bindClose(){$('#close').onclick=()=>{sel=null;$('#side').classList.remove('on');$('#map').classList.remove('dim');svg.transition().duration(700).call(zoomB.transform,d3.zoomIdentity)}}
+setInterval(()=>{if(feats)tick()},1000);
+async function refresh(){
+  const syms=[...new Set([...Object.values(C).map(prim),...GLOBAL.map(r=>r[0]),...(sel?C[sel].ix.map(i=>i.s):[])])];let i=0,good=0;
+  await Promise.all(Array.from({length:CONFIG.CONCURRENCY},async()=>{while(i<syms.length){const s=syms[i++],r=await Q(s);if(r.ok)good++;D[s]=r}}));
+  $('#live').classList.toggle('on',good>0);
+  if(!good){const t=$('#toast');t.style.display='block';t.innerHTML='<b>Data unavailable.</b> The market feed could not be reached (most likely a browser CORS block). Set <span class="mono">CONFIG.proxy</span> or swap <span class="mono">Provider</span> in index.html.'}
+  else $('#toast').style.display='none';
+  recolor();stats();renderGlobal();if(sel)renderSide()}
+init().then(()=>{refresh();setInterval(refresh,CONFIG.REFRESH_MS)});
+addEventListener('resize',()=>{if(feats){W=innerWidth;H=innerHeight;proj.fitExtent([[10,60],[W-10,H-50]],{type:'Sphere'});gc.selectAll('path').attr('d',path);layout()}});
+</script>
+</body>
+</html>
