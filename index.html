@@ -17,7 +17,7 @@
 
       gtag('config', 'G-PGR4Y0TVNP');
     </script>
-
+  
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Global Markets · Live World Stock Market Map</title>
@@ -335,13 +335,29 @@ const NAME={'United States of America':'United States'},ncache=new Map();let las
 const TAGS=[['War','war|attack|military|missile|ceasefire|conflict|troops|sanction|strike|drone'],['Markets','stock|share|market|index|nasdaq|bond|yield|currency|investor|earnings'],['Tech','tech|\\bai\\b|chip|semiconductor|software|cyber|startup|robot'],['Economy','econom|inflation|gdp|rate|bank|trade|tariff|budget|oil']];
 const tagOf=t=>(TAGS.find(([,r])=>new RegExp(r,'i').test(t))||['General'])[0];
 const esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+const PROXIES=[u=>'https://api.allorigins.win/raw?url='+encodeURIComponent(u),u=>'https://corsproxy.io/?url='+encodeURIComponent(u)];   // public CORS proxies used as fallback; replace with your own for reliability
+let newsSrc='',newsErr='';
+async function tryFetch(u,ms=9000){const c=new AbortController(),t=setTimeout(()=>c.abort(),ms);try{const r=await fetch(u,{signal:c.signal});if(!r.ok)throw Error('HTTP '+r.status);return await r.text()}finally{clearTimeout(t)}}
+const gdeltURL=nm=>`https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(`"${nm}" ${NEWS.TOPICS} sourcelang:english`)}&mode=ArtList&maxrecords=40&format=json&sort=HybridRel&timespan=2d`;
+const gnewsURL=nm=>`https://news.google.com/rss/search?q=${encodeURIComponent(`"${nm}" (stock market OR economy OR technology OR war) when:2d`)}&hl=en-US&gl=US&ceid=US:en`;
+const parseGdelt=t=>{let j;try{j=JSON.parse(t)}catch{throw Error(t.slice(0,60)||'empty response')}return(j.articles||[]).map(a=>({title:a.title,url:a.url,domain:a.domain,seendate:a.seendate}))};
+const parseRSS=t=>{const x=new DOMParser().parseFromString(t,'text/xml'),it=[...x.querySelectorAll('item')];if(!it.length)throw Error('no items');
+  return it.map(i=>{const sn=(i.querySelector('source')||{}).textContent||'';let title=(i.querySelector('title')||{}).textContent||'';if(sn&&title.endsWith(' - '+sn))title=title.slice(0,-(sn.length+3));
+    const d=new Date((i.querySelector('pubDate')||{}).textContent);return{title,url:(i.querySelector('link')||{}).textContent,domain:sn,seendate:isNaN(d)?'':d.toISOString().replace(/[-:]/g,'').replace(/\.\d+/,'')}})};
 async function fetchNews(c){const e=ncache.get(c.name);if(e&&Date.now()-e.ts<NEWS.TTL)return e.p;
   const nm=NAME[c.name]||c.name;
-  const p=(async()=>{const w=lastNews+5200-Date.now();if(w>0)await new Promise(r=>setTimeout(r,w));lastNews=Date.now();
-    const u=`https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(`"${nm}" ${NEWS.TOPICS} sourcelang:english`)}&mode=ArtList&maxrecords=40&format=json&sort=HybridRel&timespan=2d`;
-    const t=await(await fetch(CONFIG.proxy(u))).text();let j;try{j=JSON.parse(t)}catch{throw Error(t.slice(0,80)||'bad response')}
-    const seen=new Set(),L=[];(j.articles||[]).forEach(a=>{const k=(a.title||'').toLowerCase().slice(0,50);if(k&&!seen.has(k)&&/^https?:/.test(a.url)){seen.add(k);L.push(a)}});
-    L.sort((a,b)=>b.title.includes(nm)-a.title.includes(nm));return L.slice(0,NEWS.N)})();
+  /* tried in order until one works: [label, url, parser, needs GDELT throttle] */
+  const tries=[['GDELT',CONFIG.proxy(gdeltURL(nm)),parseGdelt,1],
+    ...PROXIES.map((p,i)=>['Google News',p(gnewsURL(nm)),parseRSS,0]),
+    ...PROXIES.map(p=>['GDELT',p(gdeltURL(nm)),parseGdelt,1])];
+  const p=(async()=>{const errs=[];
+    for(const[lab,u,parse,th]of tries){try{
+      if(th){const w=lastNews+5200-Date.now();if(w>0)await new Promise(r=>setTimeout(r,w));lastNews=Date.now()}
+      const list=parse(await tryFetch(u)),seen=new Set(),L=[];
+      list.forEach(a=>{const k=(a.title||'').toLowerCase().slice(0,50);if(k&&!seen.has(k)&&/^https?:/.test(a.url)){seen.add(k);L.push(a)}});
+      if(!L.length)throw Error('no stories');L.sort((a,b)=>b.title.includes(nm)-a.title.includes(nm));newsSrc=lab;return L.slice(0,NEWS.N)
+    }catch(err){errs.push(lab+': '+err.message);console.warn('news source failed',lab,err)}}
+    newsErr=errs.join(' | ');throw Error(newsErr)})();
   ncache.set(c.name,{ts:Date.now(),p});p.catch(()=>ncache.delete(c.name));return p}
 const ago=s=>{const d=new Date((s||'').replace(/(\d{4})(\d\d)(\d\d)T(\d\d)(\d\d)(\d\d)Z/,'$1-$2-$3T$4:$5:$6Z'));if(isNaN(d))return'';const h=(Date.now()-d)/36e5;return h<1?Math.max(1,Math.round(h*60))+' min ago':h<24?Math.round(h)+' h ago':Math.round(h/24)+' d ago'};
 function closeNews(){$('#nm').style.display='none'}
@@ -351,11 +367,11 @@ function drawNews(msg){const c=newsC,b=$('#nb2');
   b.innerHTML=`<div class="nh"><b>${c.flag} ${c.name} · Top ${NEWS.N} news</b><button id="nx" aria-label="Close">×</button></div>
   ${msg?`<div class="mu" style="padding:20px 0">${msg}</div>`:`<div class="nf">${['All','Markets','Tech','War','Economy'].map(t=>`<button data-t="${t}" class="${t===newsTag?'on':''}">${t}</button>`).join('')}</div>
   ${items.map(a=>`<a class="ni" href="${esc(a.url)}" target="_blank" rel="noopener noreferrer"><b>${esc(a.title)}</b><span class="tg">${tagOf(a.title)}</span><span>${esc(a.domain||'')} · ${ago(a.seendate)}</span></a>`).join('')||'<div class="mu" style="padding:20px 0">No matching stories in the last 2 days.</div>'}
-  <div class="mu" style="font-size:10.5px;margin-top:10px">Source: GDELT · headlines link to the publisher.</div>`}`;
+  <div class="mu" style="font-size:10.5px;margin-top:10px">Source: ${esc(newsSrc)} · headlines link to the publisher.</div>`}`;
   $('#nx').onclick=closeNews;b.querySelectorAll('.nf button').forEach(x=>x.onclick=()=>{newsTag=x.dataset.t;drawNews()})}
 async function openNews(name){newsC=C[name];newsTag='All';newsList=[];$('#nm').style.display='flex';drawNews('Loading latest headlines…');
   try{newsList=await fetchNews(newsC);drawNews(newsList.length?'':'No stories found for this country right now.')}
-  catch(e){drawNews('<b>News unavailable.</b> The feed could not be reached (likely a browser CORS block or rate limit). Set <span class="mono">CONFIG.proxy</span> or swap <span class="mono">fetchNews()</span> in index.html.')}}
+  catch(e){drawNews('<b>News unavailable.</b> All news sources failed.<div class="mono" style="margin-top:8px;font-size:10.5px;word-break:break-word">'+esc(newsErr||e.message)+'</div><div style="margin-top:8px">Set <span class="mono">CONFIG.proxy</span> to your own CORS proxy, or swap <span class="mono">fetchNews()</span>.</div>')}}
 let region='World';const REG=['World','Americas','Europe','Asia-Pacific','Middle East','Africa'];
 $('#rg').innerHTML=REG.map(r=>`<button data-r="${r}" class="${r===region?'on':''}">${r}</button>`).join('');
 $('#rg').onclick=e=>{if(e.target.dataset.r){region=e.target.dataset.r;document.querySelectorAll('#rg button').forEach(b=>b.classList.toggle('on',b.dataset.r===region));renderGlobal()}};
