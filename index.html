@@ -330,15 +330,15 @@ async function chart(){const box=$('#chart');if(!box)return;box.innerHTML='<div 
    Default: GDELT DOC 2.0 (free, no key, ~1 request / 5 s). Results cached 10 min per country.
    If the browser blocks it (CORS), route it through CONFIG.proxy. Replace fetchNews() to use NewsAPI, GNews, etc.
    fetchNews(country) must return [{title,url,domain,seendate}] */
-const NEWS={TOPICS:'(stock OR stocks OR market OR economy OR inflation OR technology OR AI OR chip OR war OR conflict OR sanctions OR tariff)',TTL:600000,N:10};
+const NEWS={TOPICS:'(stocks OR economy OR technology OR war OR sanctions)',TTL:600000,N:10};
 const NAME={'United States of America':'United States'},ncache=new Map();let lastNews=0,newsTag='All',newsList=[],newsC=null;
 const TAGS=[['War','war|attack|military|missile|ceasefire|conflict|troops|sanction|strike|drone'],['Markets','stock|share|market|index|nasdaq|bond|yield|currency|investor|earnings'],['Tech','tech|\\bai\\b|chip|semiconductor|software|cyber|startup|robot'],['Economy','econom|inflation|gdp|rate|bank|trade|tariff|budget|oil']];
 const tagOf=t=>(TAGS.find(([,r])=>new RegExp(r,'i').test(t))||['General'])[0];
 const esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
-const PROXIES=[u=>'https://api.allorigins.win/raw?url='+encodeURIComponent(u),u=>'https://corsproxy.io/?url='+encodeURIComponent(u)];   // public CORS proxies used as fallback; replace with your own for reliability
+const PROXIES=[u=>'https://api.allorigins.win/raw?url='+encodeURIComponent(u)];   // public CORS proxies used as fallback; replace with your own for reliability
 let newsSrc='',newsErr='';
-async function tryFetch(u,ms=9000){const c=new AbortController(),t=setTimeout(()=>c.abort(),ms);try{const r=await fetch(u,{signal:c.signal});if(!r.ok)throw Error('HTTP '+r.status);return await r.text()}finally{clearTimeout(t)}}
-const gdeltURL=nm=>`https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(`"${nm}" ${NEWS.TOPICS} sourcelang:english`)}&mode=ArtList&maxrecords=40&format=json&sort=HybridRel&timespan=2d`;
+async function tryFetch(u,ms=10000){const c=new AbortController(),t=setTimeout(()=>c.abort(),ms);try{const r=await fetch(u,{signal:c.signal});if(!r.ok)throw Error('HTTP '+r.status);return await r.text()}finally{clearTimeout(t)}}
+const gdeltURL=nm=>`https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(`"${nm}" ${NEWS.TOPICS} sourcelang:english`)}&mode=ArtList&maxrecords=25&format=json&sort=HybridRel&timespan=1d`;
 const gnewsURL=nm=>`https://news.google.com/rss/search?q=${encodeURIComponent(`"${nm}" (stock market OR economy OR technology OR war) when:2d`)}&hl=en-US&gl=US&ceid=US:en`;
 const parseGdelt=t=>{let j;try{j=JSON.parse(t)}catch{throw Error(t.slice(0,60)||'empty response')}return(j.articles||[]).map(a=>({title:a.title,url:a.url,domain:a.domain,seendate:a.seendate}))};
 const parseRSS=t=>{const x=new DOMParser().parseFromString(t,'text/xml'),it=[...x.querySelectorAll('item')];if(!it.length)throw Error('no items');
@@ -347,13 +347,15 @@ const parseRSS=t=>{const x=new DOMParser().parseFromString(t,'text/xml'),it=[...
 async function fetchNews(c){const e=ncache.get(c.name);if(e&&Date.now()-e.ts<NEWS.TTL)return e.p;
   const nm=NAME[c.name]||c.name;
   /* tried in order until one works: [label, url, parser, needs GDELT throttle] */
+  const own=CONFIG.proxy('')!=='';   // true once you set your own proxy
   const tries=[['GDELT',CONFIG.proxy(gdeltURL(nm)),parseGdelt,1],
+    ...(own?[['Google News',CONFIG.proxy(gnewsURL(nm)),parseRSS,0]]:[]),
     ...PROXIES.map((p,i)=>['Google News',p(gnewsURL(nm)),parseRSS,0]),
     ...PROXIES.map(p=>['GDELT',p(gdeltURL(nm)),parseGdelt,1])];
   const p=(async()=>{const errs=[];
     for(const[lab,u,parse,th]of tries){try{
       if(th){const w=lastNews+5200-Date.now();if(w>0)await new Promise(r=>setTimeout(r,w));lastNews=Date.now()}
-      const list=parse(await tryFetch(u)),seen=new Set(),L=[];
+      const list=parse(await tryFetch(u,th?25000:10000)),seen=new Set(),L=[];
       list.forEach(a=>{const k=(a.title||'').toLowerCase().slice(0,50);if(k&&!seen.has(k)&&/^https?:/.test(a.url)){seen.add(k);L.push(a)}});
       if(!L.length)throw Error('no stories');L.sort((a,b)=>b.title.includes(nm)-a.title.includes(nm));newsSrc=lab;return L.slice(0,NEWS.N)
     }catch(err){errs.push(lab+': '+err.message);console.warn('news source failed',lab,err)}}
