@@ -5,7 +5,67 @@
 
     <!-- Google AdSense -->
     <meta name="google-adsense-account" content="ca-pub-7963880628277539">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7963880628277539" crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7963880628277539" crossorigin="anonymous">
+/* ═══════════════ 9. CUSTOM JSON UPLOADER ═══════════════ */
+function loadCustomJSON(jsonData) {
+  if (!jsonData || !jsonData.countries) {
+    alert("Invalid JSON format. Expected root key 'countries'.");
+    return;
+  }
+  const countries = jsonData.countries;
+  let count = 0;
+  Object.keys(countries).forEach(countryName => {
+    const cData = countries[countryName];
+    if (cData.market_data && cData.market_data.indices) {
+      cData.market_data.indices.forEach(idx => {
+        D[idx.symbol] = {
+          price: idx.price,
+          prev: idx.prev,
+          hi: idx.hi ?? (idx.price * 1.01),
+          lo: idx.lo ?? (idx.price * 0.99),
+          h52: idx.h52 ?? (idx.price * 1.1),
+          l52: idx.l52 ?? (idx.price * 0.85),
+          t: Date.parse(jsonData.date || "2026-11-05"),
+          ok: 1
+        };
+      });
+      count++;
+    }
+    if (cData.top_10_news) {
+      ncache.set(countryName, {
+        ts: Date.now(),
+        p: Promise.resolve(cData.top_10_news.map(n => ({
+          title: n.title,
+          url: n.url,
+          domain: n.domain,
+          seendate: jsonData.date ? jsonData.date.replace(/-/g, '') + 'T120000Z' : '20261105T120000Z'
+        })))
+      });
+    }
+  });
+  recolor();
+  stats();
+  renderGlobal();
+  if (sel) renderSide();
+  alert(`Successfully loaded market and news data for ${count} countries!`);
+}
+
+$('#uploadBtn').onclick = () => $('#jsonUploadInput').click();
+$('#jsonUploadInput').onchange = (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (evt) => {
+    try {
+      const parsedData = JSON.parse(evt.target.result);
+      loadCustomJSON(parsedData);
+    } catch (err) {
+      alert("Error parsing JSON file: " + err.message);
+    }
+  };
+  reader.readAsText(file);
+};
+</script>
 
 
     <!-- Google tag (gtag.js) -->
@@ -105,7 +165,11 @@ td{padding:5px 6px;text-align:right;border-top:1px solid var(--line);font-family
 <body>
 <svg id="map"></svg>
 <div id="hdr" class="glass"><h1>GLOBAL MARKETS<span id="live"><i></i>LIVE</span></h1><div class="sub">Live World Stock Market Map</div>
-<div class="stats"><span>🌐 Open <b id="sO">–</b></span><span>🟢 Gaining <b id="sG">–</b></span><span>🔴 Declining <b id="sD">–</b></span><span>⚪ Closed <b id="sC">–</b></span></div><div id="utc"></div></div>
+<div class="stats"><span>🌐 Open <b id="sO">–</b></span><span>🟢 Gaining <b id="sG">–</b></span><span>🔴 Declining <b id="sD">–</b></span><span>⚪ Closed <b id="sC">–</b></span></div><div id="utc"></div>
+<div style="margin-top:10px;display:flex;gap:8px">
+  <input type="file" id="jsonUploadInput" accept=".json" style="display:none">
+  <button id="uploadBtn" style="padding:6px 12px;border-radius:8px;background:rgba(122,167,255,0.15);border:1px solid var(--ac);color:var(--tx);cursor:pointer;font:500 11px var(--sans);display:inline-flex;align-items:center;gap:6px">📁 Upload JSON Data</button>
+</div></div>
 <div id="srch"><input id="q" placeholder="🔍 Search country, capital or stock index…" autocomplete="off"><div id="res" class="glass"></div></div>
 <div id="legend" class="glass"><b>Market Performance</b><div class="bar"></div><div class="r"><span>-3%</span><span>0</span><span>+3%</span></div><div class="mu" style="margin-top:4px">🟢 Gaining · 🔴 Declining · ⚪ Closed / No data</div></div>
 <div id="tip" class="glass"></div><div id="toast" class="glass"></div>
