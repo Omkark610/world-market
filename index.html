@@ -50,22 +50,29 @@ function loadCustomJSON(jsonData) {
   alert(`Successfully loaded market and news data for ${count} countries!`);
 }
 
-$('#uploadBtn').onclick = () => $('#jsonUploadInput').click();
-$('#jsonUploadInput').onchange = (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (evt) => {
-    try {
-      const parsedData = JSON.parse(evt.target.result);
-      loadCustomJSON(parsedData);
-    } catch (err) {
-      alert("Error parsing JSON file: " + err.message);
-    }
-  };
-  reader.readAsText(file);
-};
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('uploadBtn');
+  const inp = document.getElementById('jsonUploadInput');
+  if (btn && inp) {
+    btn.onclick = () => inp.click();
+    inp.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        try {
+          const parsedData = JSON.parse(evt.target.result);
+          loadCustomJSON(parsedData);
+        } catch (err) {
+          alert("Error parsing JSON file: " + err.message);
+        }
+      };
+      reader.readAsText(file);
+    };
+  }
+});
 </script>
+
 
 
     <!-- Google tag (gtag.js) -->
