@@ -5,74 +5,7 @@
 
     <!-- Google AdSense -->
     <meta name="google-adsense-account" content="ca-pub-7963880628277539">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7963880628277539" crossorigin="anonymous">
-/* ═══════════════ 9. CUSTOM JSON UPLOADER ═══════════════ */
-function loadCustomJSON(jsonData) {
-  if (!jsonData || !jsonData.countries) {
-    alert("Invalid JSON format. Expected root key 'countries'.");
-    return;
-  }
-  const countries = jsonData.countries;
-  let count = 0;
-  Object.keys(countries).forEach(countryName => {
-    const cData = countries[countryName];
-    if (cData.market_data && cData.market_data.indices) {
-      cData.market_data.indices.forEach(idx => {
-        D[idx.symbol] = {
-          price: idx.price,
-          prev: idx.prev,
-          hi: idx.hi ?? (idx.price * 1.01),
-          lo: idx.lo ?? (idx.price * 0.99),
-          h52: idx.h52 ?? (idx.price * 1.1),
-          l52: idx.l52 ?? (idx.price * 0.85),
-          t: Date.parse(jsonData.date || "2026-11-05"),
-          ok: 1
-        };
-      });
-      count++;
-    }
-    if (cData.top_10_news) {
-      ncache.set(countryName, {
-        ts: Date.now(),
-        p: Promise.resolve(cData.top_10_news.map(n => ({
-          title: n.title,
-          url: n.url,
-          domain: n.domain,
-          seendate: jsonData.date ? jsonData.date.replace(/-/g, '') + 'T120000Z' : '20261105T120000Z'
-        })))
-      });
-    }
-  });
-  recolor();
-  stats();
-  renderGlobal();
-  if (sel) renderSide();
-  alert(`Successfully loaded market and news data for ${count} countries!`);
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  const btn = document.getElementById('uploadBtn');
-  const inp = document.getElementById('jsonUploadInput');
-  if (btn && inp) {
-    btn.onclick = () => inp.click();
-    inp.onchange = (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (evt) => {
-        try {
-          const parsedData = JSON.parse(evt.target.result);
-          loadCustomJSON(parsedData);
-        } catch (err) {
-          alert("Error parsing JSON file: " + err.message);
-        }
-      };
-      reader.readAsText(file);
-    };
-  }
-});
-</script>
-
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7963880628277539" crossorigin="anonymous"></script>
 
 
     <!-- Google tag (gtag.js) -->
@@ -483,6 +416,105 @@ async function refresh(){
   recolor();stats();renderGlobal();if(sel)renderSide()}
 init().then(()=>{refresh();setInterval(refresh,CONFIG.REFRESH_MS)});
 addEventListener('resize',()=>{if(feats){W=innerWidth;H=innerHeight;proj.fitExtent([[10,60],[W-10,H-50]],{type:'Sphere'});gc.selectAll('path').attr('d',path);layout()}});
+
+/* ═══════════════ 9. CUSTOM JSON UPLOADER ═══════════════ */
+function resolveCountryKey(name) {
+  if (C[name]) return name;
+  if (ALIAS[name] && C[ALIAS[name]]) return ALIAS[name];
+  const lname = name.toLowerCase();
+  for (const k in C) {
+    if (k.toLowerCase() === lname) return k;
+  }
+  for (const a in ALIAS) {
+    if (a.toLowerCase() === lname && C[ALIAS[a]]) return ALIAS[a];
+  }
+  return null;
+}
+
+function loadCustomJSON(jsonData) {
+  if (!jsonData || !jsonData.countries) {
+    alert("Invalid JSON format. Expected root key 'countries'.");
+    return;
+  }
+  const countries = jsonData.countries;
+  let count = 0;
+  
+  Object.keys(countries).forEach(rawName => {
+    const cData = countries[rawName];
+    const countryKey = resolveCountryKey(rawName);
+    if (!countryKey || !C[countryKey]) {
+      console.warn("Country not recognized on map:", rawName);
+      return;
+    }
+    
+    if (cData && cData.market_data && Array.isArray(cData.market_data.indices)) {
+      cData.market_data.indices.forEach(idx => {
+        if (!idx || !idx.symbol) return;
+        D[idx.symbol] = {
+          price: idx.price ?? 0,
+          prev: idx.prev ?? idx.price ?? 0,
+          hi: idx.hi ?? ((idx.price ?? 0) * 1.01),
+          lo: idx.lo ?? ((idx.price ?? 0) * 0.99),
+          h52: idx.h52 ?? ((idx.price ?? 0) * 1.1),
+          l52: idx.l52 ?? ((idx.price ?? 0) * 0.85),
+          t: Date.parse(jsonData.date || "2026-11-05") || Date.now(),
+          ok: 1
+        };
+      });
+      count++;
+    }
+    
+    if (cData && Array.isArray(cData.top_10_news)) {
+      ncache.set(countryKey, {
+        ts: Date.now(),
+        p: Promise.resolve(cData.top_10_news.map(n => ({
+          title: n.title || '',
+          url: n.url || '#',
+          domain: n.domain || '',
+          seendate: jsonData.date ? jsonData.date.replace(/-/g, '') + 'T120000Z' : '20261105T120000Z'
+        })))
+      });
+    }
+  });
+
+  try {
+    recolor();
+    stats();
+    renderGlobal();
+    if (sel) renderSide();
+  } catch (err) {
+    console.error("Error updating UI after JSON load:", err);
+  }
+
+  alert(`Successfully loaded market and news data for ${count} countries!`);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('uploadBtn');
+  const inp = document.getElementById('jsonUploadInput');
+  if (btn && inp) {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      inp.click();
+    });
+    inp.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        let parsedData;
+        try {
+          parsedData = JSON.parse(evt.target.result);
+        } catch (err) {
+          alert("Error parsing JSON file: " + err.message);
+          return;
+        }
+        loadCustomJSON(parsedData);
+      };
+      reader.readAsText(file);
+    });
+  }
+});
 </script>
 </body>
 </html>
