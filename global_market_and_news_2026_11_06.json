@@ -1,0 +1,1017 @@
+{
+  "date": "2026-11-06",
+  "updated_at": "2026-11-06T08:45:00Z",
+  "countries": {
+    "United States of America": {
+      "flag": "🇺🇸",
+      "capital": "Washington, D.C.",
+      "tz": "America/New_York",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "^GSPC",
+        "indices": [
+          {
+            "symbol": "^GSPC",
+            "name": "S&P 500",
+            "price": 7353.73,
+            "prev": 7688.62,
+            "change": -334.89,
+            "pct_change": -4.36
+          },
+          {
+            "symbol": "^IXIC",
+            "name": "NASDAQ Composite",
+            "price": 24315.0,
+            "prev": 25736.52,
+            "change": -1421.52,
+            "pct_change": -5.52
+          },
+          {
+            "symbol": "^DJI",
+            "name": "Dow Jones Industrial Average",
+            "price": 51523.06,
+            "prev": 53356.12,
+            "change": -1833.06,
+            "pct_change": -3.44
+          },
+          {
+            "symbol": "^RUT",
+            "name": "Russell 2000",
+            "price": 2729.89,
+            "prev": 2856.95,
+            "change": -127.06,
+            "pct_change": -4.45
+          }
+        ]
+      },
+      "top_10_news": [
+        {
+          "title": "How major US stock indexes fared Thursday 11/5/2026",
+          "domain": "apnews.com",
+          "url": "https://apnews.com/article/afe254c608c3d1fe2ea792812ba9765a",
+          "tag": "Markets"
+        },
+        {
+          "title": "Tech wreck and roll: global markets watch tech selloff and Iran risk",
+          "domain": "reuters.com",
+          "url": "https://www.reuters.com/business/take-five/global-markets-themes-graphic-2026-11-06/",
+          "tag": "Markets"
+        },
+        {
+          "title": "Markets fret over growth and inflation despite easing oil prices",
+          "domain": "investing.com",
+          "url": "https://au.investing.com/news/economy-news/markets-fret-over-growth-and-inflation-despite-easing-oil-prices-4749957",
+          "tag": "Economy"
+        }
+      ]
+    },
+    "India": {
+      "flag": "🇮🇳",
+      "capital": "New Delhi",
+      "tz": "Asia/Kolkata",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "^NSEI",
+        "indices": [
+          {
+            "symbol": "^NSEI",
+            "name": "NIFTY 50",
+            "price": 24515.3,
+            "prev": 24537.5,
+            "change": -22.2,
+            "pct_change": -0.09
+          },
+          {
+            "symbol": "^BSESN",
+            "name": "SENSEX",
+            "price": 79467.15,
+            "prev": 79317.15,
+            "change": 150.0,
+            "pct_change": 0.19
+          }
+        ]
+      },
+      "top_10_news": [
+        {
+          "title": "India defies Asia tech rout as oil slide, foreign buying cushion markets",
+          "domain": "marketscreener.com",
+          "url": "https://in.marketscreener.com/news/india-defies-asia-tech-rout-as-oil-slide-foreign-buying-cushion-markets-ce785fdddf8df721",
+          "tag": "Markets"
+        }
+      ]
+    },
+    "Japan": {
+      "flag": "🇯🇵",
+      "capital": "Tokyo",
+      "tz": "Asia/Tokyo",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "^N225",
+        "indices": [
+          {
+            "symbol": "^N225",
+            "name": "Nikkei 225",
+            "price": 57434.77,
+            "prev": 61077.9,
+            "change": -3643.13,
+            "pct_change": -5.96
+          }
+        ]
+      },
+      "top_10_news": [
+        {
+          "title": "Asia stocks crumble after AI rout rocks US markets",
+          "domain": "euronext.com",
+          "url": "https://live.euronext.com/en/financial-news/asia-stocks-crumble-after-ai-rout-rocks-us-markets",
+          "tag": "Markets"
+        }
+      ]
+    },
+    "Germany": {
+      "flag": "🇩🇪",
+      "capital": "Berlin",
+      "tz": "Europe/Berlin",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "^GDAXI",
+        "indices": [
+          {
+            "symbol": "^GDAXI",
+            "name": "DAX",
+            "price": 26325.01,
+            "prev": 26437.67,
+            "change": -112.66,
+            "pct_change": -0.43
+          }
+        ]
+      },
+      "top_10_news": [
+        {
+          "title": "European shares rise on mining gains; tech lags",
+          "domain": "investing.com",
+          "url": "https://www.investing.com/news/stock-market-news/european-shares-rise-on-mining-gains-tech-lags-5002547",
+          "tag": "Markets"
+        }
+      ]
+    },
+    "United Kingdom": {
+      "flag": "🇬🇧",
+      "capital": "London",
+      "tz": "Europe/London",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "^FTSE",
+        "indices": [
+          {
+            "symbol": "^FTSE",
+            "name": "FTSE 100",
+            "price": 10782.66,
+            "prev": 10829.21,
+            "change": -46.55,
+            "pct_change": -0.43
+          }
+        ]
+      },
+      "top_10_news": [
+        {
+          "title": "Markets fret over growth and inflation despite easing oil prices",
+          "domain": "investing.com",
+          "url": "https://au.investing.com/news/economy-news/markets-fret-over-growth-and-inflation-despite-easing-oil-prices-4749957",
+          "tag": "Economy"
+        }
+      ]
+    },
+    "Canada": {
+      "flag": "🇨🇦",
+      "capital": "Ottawa",
+      "tz": "America/Toronto",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "^GSPTSE",
+        "indices": [
+          {
+            "symbol": "^GSPTSE",
+            "name": "S&P/TSX Composite",
+            "price": 35605.27,
+            "prev": 36343.27,
+            "change": -738.0,
+            "pct_change": -2.03
+          }
+        ]
+      },
+      "top_10_news": []
+    },
+    "Brazil": {
+      "flag": "🇧🇷",
+      "capital": "Brasília",
+      "tz": "America/Sao_Paulo",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "^BVSP",
+        "indices": [
+          {
+            "symbol": "^BVSP",
+            "name": "Ibovespa",
+            "price": 166191.45,
+            "prev": 167563.45,
+            "change": -1372.0,
+            "pct_change": -0.82
+          }
+        ]
+      },
+      "top_10_news": []
+    },
+    "Mexico": {
+      "flag": "🇲🇽",
+      "capital": "Mexico City",
+      "tz": "America/Mexico_City",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "^MXX",
+        "indices": [
+          {
+            "symbol": "^MXX",
+            "name": "IPC Mexico",
+            "price": 71087.6,
+            "prev": 70818.6,
+            "change": 269.0,
+            "pct_change": 0.38
+          }
+        ]
+      },
+      "top_10_news": []
+    },
+    "France": {
+      "flag": "🇫🇷",
+      "capital": "Paris",
+      "tz": "Europe/Paris",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "^FCHI",
+        "indices": [
+          {
+            "symbol": "^FCHI",
+            "name": "CAC 40",
+            "price": 8205.37,
+            "prev": 8177.89,
+            "change": 27.48,
+            "pct_change": 0.34
+          }
+        ]
+      },
+      "top_10_news": [
+        {
+          "title": "European shares rise on mining gains; tech lags",
+          "domain": "investing.com",
+          "url": "https://www.investing.com/news/stock-market-news/european-shares-rise-on-mining-gains-tech-lags-5002547",
+          "tag": "Markets"
+        }
+      ]
+    },
+    "Switzerland": {
+      "flag": "🇨🇭",
+      "capital": "Bern",
+      "tz": "Europe/Zurich",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "^SSMI",
+        "indices": [
+          {
+            "symbol": "^SSMI",
+            "name": "SMI",
+            "price": 14967.7,
+            "prev": 15022.7,
+            "change": -55.0,
+            "pct_change": -0.37
+          }
+        ]
+      },
+      "top_10_news": []
+    },
+    "Netherlands": {
+      "flag": "🇳🇱",
+      "capital": "Amsterdam",
+      "tz": "Europe/Amsterdam",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "^AEX",
+        "indices": [
+          {
+            "symbol": "^AEX",
+            "name": "AEX",
+            "price": 1129.22,
+            "prev": 1136.29,
+            "change": -7.07,
+            "pct_change": -0.62
+          }
+        ]
+      },
+      "top_10_news": []
+    },
+    "Austria": {
+      "flag": "🇦🇹",
+      "capital": "Vienna",
+      "tz": "Europe/Vienna",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "^ATX",
+        "indices": [
+          {
+            "symbol": "^ATX",
+            "name": "ATX",
+            "price": 6511.4,
+            "prev": 6518.52,
+            "change": -7.12,
+            "pct_change": -0.11
+          }
+        ]
+      },
+      "top_10_news": []
+    },
+    "Belgium": {
+      "flag": "🇧🇪",
+      "capital": "Brussels",
+      "tz": "Europe/Brussels",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "^BFX",
+        "indices": [
+          {
+            "symbol": "^BFX",
+            "name": "BEL 20",
+            "price": 6015.09,
+            "prev": 5979.01,
+            "change": 36.08,
+            "pct_change": 0.6
+          }
+        ]
+      },
+      "top_10_news": []
+    },
+    "Turkey": {
+      "flag": "🇹🇷",
+      "capital": "Ankara",
+      "tz": "Europe/Istanbul",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "XU100.IS",
+        "indices": [
+          {
+            "symbol": "XU100.IS",
+            "name": "BIST 100",
+            "price": 11333.27,
+            "prev": 11478.13,
+            "change": -144.86,
+            "pct_change": -1.26
+          }
+        ]
+      },
+      "top_10_news": []
+    },
+    "China": {
+      "flag": "🇨🇳",
+      "capital": "Beijing",
+      "tz": "Asia/Shanghai",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "000001.SS",
+        "indices": [
+          {
+            "symbol": "000001.SS",
+            "name": "Shanghai Composite",
+            "price": 3689.91,
+            "prev": 3686.23,
+            "change": 3.68,
+            "pct_change": 0.1
+          },
+          {
+            "symbol": "399001.SZ",
+            "name": "SZSE Component",
+            "price": 11216.95,
+            "prev": 11471.95,
+            "change": -255.0,
+            "pct_change": -2.22
+          }
+        ]
+      },
+      "top_10_news": []
+    },
+    "Hong Kong": {
+      "flag": "🇭🇰",
+      "capital": "Hong Kong",
+      "tz": "Asia/Hong_Kong",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "^HSI",
+        "indices": [
+          {
+            "symbol": "^HSI",
+            "name": "Hang Seng",
+            "price": 24515.06,
+            "prev": 24796.98,
+            "change": -281.92,
+            "pct_change": -1.14
+          }
+        ]
+      },
+      "top_10_news": []
+    },
+    "South Korea": {
+      "flag": "🇰🇷",
+      "capital": "Seoul",
+      "tz": "Asia/Seoul",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "^KS11",
+        "indices": [
+          {
+            "symbol": "^KS11",
+            "name": "KOSPI",
+            "price": 5097.29,
+            "prev": 5383.29,
+            "change": -286.0,
+            "pct_change": -5.32
+          }
+        ]
+      },
+      "top_10_news": [
+        {
+          "title": "Asia stocks crumble after AI rout rocks US markets",
+          "domain": "euronext.com",
+          "url": "https://live.euronext.com/en/financial-news/asia-stocks-crumble-after-ai-rout-rocks-us-markets",
+          "tag": "Markets"
+        }
+      ]
+    },
+    "Taiwan": {
+      "flag": "🇹🇼",
+      "capital": "Taipei",
+      "tz": "Asia/Taipei",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "^TWII",
+        "indices": [
+          {
+            "symbol": "^TWII",
+            "name": "TAIEX",
+            "price": 39698.35,
+            "prev": 41573.35,
+            "change": -1875.0,
+            "pct_change": -4.51
+          }
+        ]
+      },
+      "top_10_news": [
+        {
+          "title": "Stocks tumble as AI panic sweeps markets, bonds draw haven demand",
+          "domain": "thejakartapost.com",
+          "url": "https://www.thejakartapost.com/business/2026/11/06/stocks-tumble-as-ai-panic-sweeps-markets-bonds-draw-haven-demand",
+          "tag": "Markets"
+        }
+      ]
+    },
+    "Singapore": {
+      "flag": "🇸🇬",
+      "capital": "Singapore",
+      "tz": "Asia/Singapore",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "^STI",
+        "indices": [
+          {
+            "symbol": "^STI",
+            "name": "Straits Times Index",
+            "price": 5172.2,
+            "prev": 5296.2,
+            "change": -124.0,
+            "pct_change": -2.34
+          }
+        ]
+      },
+      "top_10_news": []
+    },
+    "Australia": {
+      "flag": "🇦🇺",
+      "capital": "Canberra",
+      "tz": "Australia/Sydney",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "^AXJO",
+        "indices": [
+          {
+            "symbol": "^AXJO",
+            "name": "S&P/ASX 200",
+            "price": 8993.5,
+            "prev": 9064.5,
+            "change": -71.0,
+            "pct_change": -0.79
+          }
+        ]
+      },
+      "top_10_news": []
+    },
+    "New Zealand": {
+      "flag": "🇳🇿",
+      "capital": "Wellington",
+      "tz": "Pacific/Auckland",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "^NZ50",
+        "indices": [
+          {
+            "symbol": "^NZ50",
+            "name": "S&P/NZX 50",
+            "price": 13913.7,
+            "prev": 13971.7,
+            "change": -58.0,
+            "pct_change": -0.42
+          }
+        ]
+      },
+      "top_10_news": []
+    },
+    "Saudi Arabia": {
+      "flag": "🇸🇦",
+      "capital": "Riyadh",
+      "tz": "Asia/Riyadh",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "^TASI.SR",
+        "indices": [
+          {
+            "symbol": "^TASI.SR",
+            "name": "Tadawul All Share Index",
+            "price": 10095.42,
+            "prev": 10039.42,
+            "change": 56.0,
+            "pct_change": 0.56
+          }
+        ]
+      },
+      "top_10_news": []
+    },
+    "South Africa": {
+      "flag": "🇿🇦",
+      "capital": "Pretoria",
+      "tz": "Africa/Johannesburg",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "^JTOPI",
+        "indices": [
+          {
+            "symbol": "^JTOPI",
+            "name": "JSE Top 40",
+            "price": 15772.0,
+            "prev": 15530.0,
+            "change": 242.0,
+            "pct_change": 1.56
+          }
+        ]
+      },
+      "top_10_news": []
+    },
+    "United Arab Emirates": {
+      "flag": "🇦🇪",
+      "capital": "Abu Dhabi",
+      "tz": "Asia/Dubai",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "DFMGI.AE",
+        "indices": [
+          {
+            "symbol": "DFMGI.AE",
+            "name": "DFM General Index",
+            "price": 6042.65,
+            "prev": 6040.85,
+            "change": 1.8,
+            "pct_change": 0.03
+          }
+        ]
+      },
+      "top_10_news": []
+    },
+    "Israel": {
+      "flag": "🇮🇱",
+      "capital": "Jerusalem",
+      "tz": "Asia/Jerusalem",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "^TA35.TA",
+        "indices": [
+          {
+            "symbol": "^TA35.TA",
+            "name": "TA-35",
+            "price": 3719.05,
+            "prev": 3849.05,
+            "change": -130.0,
+            "pct_change": -3.38
+          }
+        ]
+      },
+      "top_10_news": []
+    },
+    "Spain": {
+      "flag": "🇪🇸",
+      "capital": "Madrid",
+      "tz": "Europe/Madrid",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Italy": {
+      "flag": "🇮🇹",
+      "capital": "Rome",
+      "tz": "Europe/Rome",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Portugal": {
+      "flag": "🇵🇹",
+      "capital": "Lisbon",
+      "tz": "Europe/Lisbon",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Sweden": {
+      "flag": "🇸🇪",
+      "capital": "Stockholm",
+      "tz": "Europe/Stockholm",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Norway": {
+      "flag": "🇳🇴",
+      "capital": "Oslo",
+      "tz": "Europe/Oslo",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Denmark": {
+      "flag": "🇩🇰",
+      "capital": "Copenhagen",
+      "tz": "Europe/Copenhagen",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Finland": {
+      "flag": "🇫🇮",
+      "capital": "Helsinki",
+      "tz": "Europe/Helsinki",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Indonesia": {
+      "flag": "🇮🇩",
+      "capital": "Jakarta",
+      "tz": "Asia/Jakarta",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Thailand": {
+      "flag": "🇹🇭",
+      "capital": "Bangkok",
+      "tz": "Asia/Bangkok",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Malaysia": {
+      "flag": "🇲🇾",
+      "capital": "Kuala Lumpur",
+      "tz": "Asia/Kuala_Lumpur",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Philippines": {
+      "flag": "🇵🇭",
+      "capital": "Manila",
+      "tz": "Asia/Manila",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Vietnam": {
+      "flag": "🇻🇳",
+      "capital": "Hanoi",
+      "tz": "Asia/Ho_Chi_Minh",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Pakistan": {
+      "flag": "🇵🇰",
+      "capital": "Islamabad",
+      "tz": "Asia/Karachi",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Bangladesh": {
+      "flag": "🇧🇩",
+      "capital": "Dhaka",
+      "tz": "Asia/Dhaka",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Sri Lanka": {
+      "flag": "🇱🇰",
+      "capital": "Sri Jayawardenepura Kotte",
+      "tz": "Asia/Colombo",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "CSEASL",
+        "indices": [
+          {
+            "symbol": "CSEASL",
+            "name": "CSE All-Share",
+            "price": 12003.29,
+            "prev": 11863.4,
+            "change": 139.89,
+            "pct_change": 1.18
+          }
+        ]
+      },
+      "top_10_news": []
+    },
+    "Poland": {
+      "flag": "🇵🇱",
+      "capital": "Warsaw",
+      "tz": "Europe/Warsaw",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Greece": {
+      "flag": "🇬🇷",
+      "capital": "Athens",
+      "tz": "Europe/Athens",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Ireland": {
+      "flag": "🇮🇪",
+      "capital": "Dublin",
+      "tz": "Europe/Dublin",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Russia": {
+      "flag": "🇷🇺",
+      "capital": "Moscow",
+      "tz": "Europe/Moscow",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Egypt": {
+      "flag": "🇪🇬",
+      "capital": "Cairo",
+      "tz": "Africa/Cairo",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Nigeria": {
+      "flag": "🇳🇬",
+      "capital": "Abuja",
+      "tz": "Africa/Lagos",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Kenya": {
+      "flag": "🇰🇪",
+      "capital": "Nairobi",
+      "tz": "Africa/Nairobi",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Morocco": {
+      "flag": "🇲🇦",
+      "capital": "Rabat",
+      "tz": "Africa/Casablanca",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Chile": {
+      "flag": "🇨🇱",
+      "capital": "Santiago",
+      "tz": "America/Santiago",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Argentina": {
+      "flag": "🇦🇷",
+      "capital": "Buenos Aires",
+      "tz": "America/Argentina/Buenos_Aires",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Colombia": {
+      "flag": "🇨🇴",
+      "capital": "Bogotá",
+      "tz": "America/Bogota",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Peru": {
+      "flag": "🇵🇪",
+      "capital": "Lima",
+      "tz": "America/Lima",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Qatar": {
+      "flag": "🇶🇦",
+      "capital": "Doha",
+      "tz": "Asia/Qatar",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Kuwait": {
+      "flag": "🇰🇼",
+      "capital": "Kuwait City",
+      "tz": "Asia/Kuwait",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Bahrain": {
+      "flag": "🇧🇭",
+      "capital": "Manama",
+      "tz": "Asia/Bahrain",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Luxembourg": {
+      "flag": "🇱🇺",
+      "capital": "Luxembourg",
+      "tz": "Europe/Luxembourg",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Czechia": {
+      "flag": "🇨🇿",
+      "capital": "Prague",
+      "tz": "Europe/Prague",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Hungary": {
+      "flag": "🇭🇺",
+      "capital": "Budapest",
+      "tz": "Europe/Budapest",
+      "market_data": {
+        "status": "REPORTED",
+        "primary_index": "BUX",
+        "indices": [
+          {
+            "symbol": "BUX",
+            "name": "Budapest SE Index",
+            "price": 144484.17,
+            "prev": 147607.45,
+            "change": -3123.28,
+            "pct_change": -2.12
+          }
+        ]
+      },
+      "top_10_news": []
+    },
+    "Romania": {
+      "flag": "🇷🇴",
+      "capital": "Bucharest",
+      "tz": "Europe/Bucharest",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    },
+    "Iceland": {
+      "flag": "🇮🇸",
+      "capital": "Reykjavík",
+      "tz": "Atlantic/Reykjavik",
+      "market_data": {
+        "status": "UNVERIFIED",
+        "primary_index": null,
+        "indices": []
+      },
+      "top_10_news": []
+    }
+  }
+}
